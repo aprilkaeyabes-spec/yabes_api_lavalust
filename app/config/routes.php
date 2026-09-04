@@ -48,3 +48,5 @@ $router->get('/', 'Welcome::index');
 
 $router->get('/about', 'Welcome::about');
 $router->post('/users/store', 'Users::store');
+
+$router->get('/user/view-data', 'UserController::index');
