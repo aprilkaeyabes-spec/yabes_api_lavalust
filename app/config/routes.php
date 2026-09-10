@@ -1,5 +1,5 @@
 <?php
-defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+defined('PREVENT_DIRECT_ACCESS') or exit('No direct script access allowed');
 /**
  * ------------------------------------------------------------------
  * LavaLust - an opensource lightweight PHP MVC Framework
@@ -42,11 +42,35 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 |
 */
-/** @var object $router **/
+/** @var object $router * */
 
-$router->get('/', 'Welcome::index');
+// $router->get('/', 'Welcome::index');
 
-$router->get('/about', 'Welcome::about');
-$router->post('/users/store', 'Users::store');
+// $router->get('/signup', 'AuthController::signup');
+// $router->post('/signup', 'AuthController::register');
+// $router->get('/login', 'AuthController::login');
+// $router->post('/login', 'AuthController::authenticate');
+// $router->get('/logout', 'AuthController::logout');
 
-$router->get('/user/view-data', 'UserController::index');
+// $router->group(['prefix' => '/products', 'middleware' => 'auth'], function ($router) {
+//     $router->get('', 'Products::index');
+//     $router->get('/edit/{id}', 'Products::edit')->where_number('id');
+//     $router->post('/store', 'Products::store');
+//     $router->post('/update/{id}', 'Products::update')->where_number('id');
+//     $router->post('/delete/{id}', 'Products::delete')->where_number('id');
+// });
+
+
+$router->get('/', 'AuthController::login');
+$router->get('/login', 'AuthController::login');
+$router->post('/login', 'AuthController::authenticate');
+$router->post('/logout', 'AuthController::logout');
+
+$router->group(['middleware' => 'AuthMiddleware'], function ($router) {
+    $router->get('/products', 'ProductController::index');
+    $router->get('/products/create', 'ProductController::create');
+    $router->post('/products', 'ProductController::store');
+    $router->get('/products/{id}/edit', 'ProductController::edit');
+    $router->post('/products/{id}', 'ProductController::update');
+    $router->post('/products/{id}/delete', 'ProductController::delete');
+});
