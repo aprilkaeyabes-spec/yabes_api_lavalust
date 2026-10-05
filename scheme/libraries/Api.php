@@ -596,7 +596,7 @@ class Api
         $new_tokens = $this->issue_tokens([
             'id' => (int) $payload['sub'],
             'role' => $user['role'],
-            'scopes' => ['read', 'write'],
+            'scopes' => $user['role'] === 'admin' ? ['read', 'write'] : ['read'],
         ]);
 
         $this->respond([

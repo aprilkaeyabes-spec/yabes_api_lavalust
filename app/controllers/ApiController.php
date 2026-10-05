@@ -97,7 +97,7 @@ class ApiController extends Controller
         $tokens = $this->api->issue_tokens([
             'id'     => (int) $user['id'],
             'role'   => $user['role'],
-            'scopes' => ['read', 'write'],
+            'scopes' => $user['role'] === 'admin' ? ['read', 'write'] : ['read'],
         ]);
 
         $this->api->respond([
